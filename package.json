@@ -1,0 +1,10 @@
+{
+    "name": "siga-report-watcher",
+    "description": "Watch for changes in *.rdlc files and updates them to the database.",
+    "version": "0.0.4",
+    "bin": "./index.js",
+    "dependencies": {
+        "optimist": "latest",
+        "tedious": "latest"
+    }
+}
