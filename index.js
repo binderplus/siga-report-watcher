@@ -4,28 +4,6 @@ var path        = require('path')
 var tedious     = require('tedious')
 var optimist    = require('optimist')
 
-
-/* Config File example
-var configExample = {
-    "path": "C:/file/path",
-    "files": [
-        "BINDERPLUS.Comprobante.rdlc",
-        "BINDERPLUS.Comprobante.X.rdlc",
-        "BINDERPLUS.Presupuesto.X.rdlc",
-        "BINDERPLUS.Recibo.rdlc",
-        "BINDERPLUS.Recibo.X.rdlc",
-        "BINDERPLUS.RemitoTransporte.rdlc",
-        "Eniac.Win.Pago.rdlc",
-        "Eniac.Win.PagoProvisorio.rdlc",
-        "Eniac.Win.Retencion.rdlc",
-        { "source": "Eniac.Win.ConsultarCtaCteClientes.rdlc", "output": [
-            "Eniac.Win.ConsultarCtaCteClientes.rdlc",
-            "Eniac.Win.ConsultarCtaCteClientesPorVendedor.rdlc"
-        ] }
-    ]
-}
-*/
-
 // Parse CLI
 var argv = optimist
     .usage('gulp --c path/to/config.json --u <SQLUser> --p <SQLPassword>')
