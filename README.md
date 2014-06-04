@@ -1,4 +1,4 @@
-siga-report-watcher
+SIGA Report Watcher
 ===================
 
 Watch *.rdlc changes and automatically updates them in the database.
@@ -44,3 +44,8 @@ If only a `string` is supplied, it will assume `source` and `output` are the sam
 `siga-report-watcher --c ./config.json --u SQLEXPRESS_USERNAME --p SQLEXPRESS_PASSWORD`
 
 It will automatically watch for file changes and update the database.
+
+#### Comments
+
+This software is designed specifically to work with SIGA, software by http://www.sinergiass.com.ar/
+We are in no way related to them.
