@@ -5,7 +5,9 @@ Watch *.rdlc changes and automatically updates them in the database.
 
 #### Install
 
-`npm install -g siga-report-watcher`
+`npm install -g binderplus/siga-report-watcher`
+
+It will install directly from git repository, since this isn't worth publishing to npm.
 
 #### Configuration
 
