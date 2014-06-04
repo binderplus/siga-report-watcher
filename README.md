@@ -43,7 +43,7 @@ If only a `string` is supplied, it will assume `source` and `output` are the sam
 
 #### Usage
 
-`siga-report-watcher --c ./config.json --u SQLEXPRESS_USERNAME --p SQLEXPRESS_PASSWORD`
+`siga-report-watcher --u SQLEXPRESS_USERNAME --p SQLEXPRESS_PASSWORD`
 
 It will automatically watch for file changes and update the database.
 
