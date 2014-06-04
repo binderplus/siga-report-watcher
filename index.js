@@ -6,7 +6,7 @@ var optimist    = require('optimist')
 
 // Parse CLI
 var argv = optimist
-    .usage('gulp --c path/to/config.json --u <SQLUser> --p <SQLPassword>')
+    .usage('siga-report-watcher --c path/to/config.json --u <SQLUser> --p <SQLPassword>')
     .alias('c', 'config')   .describe('c', 'Configuration file.')     .default('c', './config.json')
     .alias('u', 'username') .describe('u', 'Database Username')       .demand('u')
     .alias('p', 'password') .describe('p', 'Database Password')       .demand('p')
