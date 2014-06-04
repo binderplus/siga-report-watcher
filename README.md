@@ -47,6 +47,16 @@ If only a `string` is supplied, it will assume `source` and `output` are the sam
 
 It will automatically watch for file changes and update the database.
 
+```Options:
+  -c, --config    Configuration file.      [default: "./config.json"]
+  -u, --username  Database Username        [required]
+  -p, --password  Database Password        [required]
+  -s, --server    Database Server Address  [default: "localhost"]
+  -i, --instance  Database Instance Name   [default: "SQLExpress"]
+  -d, --database  Database Name            [default: "SIGA"]
+  -t, --table     Database Table           [default: "ArchivosAImprimir"]
+```
+
 #### Comments
 
 This software is designed specifically to work with SIGA, software by http://www.sinergiass.com.ar/
