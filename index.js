@@ -3,6 +3,7 @@ var fs          = require('fs')
 var path        = require('path')
 var tedious     = require('tedious')
 var optimist    = require('optimist')
+var async       = require('async')
 
 // Parse CLI
 var argv = optimist
@@ -22,7 +23,9 @@ if (!fs.existsSync(argv.config)) {
     optimist.showHelp()
     process.exit(1)
 }
-var config = require(argv.config)
+
+// Read config
+var config = JSON.parse(fs.readFileSync(argv.config, "utf8"))
 
 // Connect to database
 var connection = new tedious.Connection({
@@ -57,7 +60,7 @@ var sources = files.map(function(file) {
 files.forEach(function(file) {
     fs.watch(file.source, { persistent: true}, function (event) {
         if (event !== 'change') return
-        //console.log('File changed: ' + file.source)
+        console.log(event)
         saveDB(file)
     })
 })
@@ -73,6 +76,7 @@ function saveDB (file) {
 
     // Save outputs
     file.output.forEach(function (output) {
+        console.log('Updating', output)
         var query = " UPDATE " + argv.table
                   + " SET ReporteSecundario = @file"
                   + " WHERE NombreReporteOriginal = @name"
