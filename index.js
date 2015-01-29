@@ -27,20 +27,15 @@ if (!fs.existsSync(argv.config)) {
 // Read config
 var config = JSON.parse(fs.readFileSync(argv.config, "utf8"))
 
-// Connect to database
-var connection = new tedious.Connection({
-    userName: argv.username,
-    password: argv.password,
-    server  : argv.server,
-    options : {
-        instanceName: argv.instance,
-        databaseName: argv.database
-    }
-}).on('connect', function (err) {
-    if (!!err) throw err
-    connection.connected = true
-    console.log('Established database connection!')
-})
+// mixin arguments
+config.database = {
+	username: argv.username,
+	password: argv.password,
+	server  : argv.server,
+	instance: argv.instance,
+	database: argv.database,
+	table   : argv.table
+}
 
 // Normalize full file description format { source: filename, output: [ row ] }
 var files = config.files.map(function(file) {
@@ -56,36 +51,71 @@ var sources = files.map(function(file) {
     return file.source
 })
 
+// Simple Debounce implementation
+var _debounceLastCall = [];
+function debounce (event, func) {
+	var now = new Date();
+	if ((now - (_debounceLastCall[event]||0)) > 1000) {
+		_debounceLastCall[event] = new Date();
+		func();
+	}
+}
+
 // Watch for file changes
 files.forEach(function(file) {
     fs.watch(file.source, { persistent: true}, function (event) {
-        if (event !== 'change') return
-        console.log(event)
-        saveDB(file)
+        if (event !== 'change') return;
+        debounce(file.source+event, function() {
+        	console.log('<- Changed', path.basename(file.source));
+        	saveDB(file);
+        })
     })
 })
 
 /* Save file to DB */
 function saveDB (file) {
-    // Queue until connected!
-    if (!connection.connected) return connection.on('connect', saveDB.bind(null, file))
 
-    // Get file contents
+	// Get file contents
     var source = fs.readFileSync(file. source, 'utf8')
     var source = source.substr(1) // FIX ÿ issue
 
     // Save outputs
     file.output.forEach(function (output) {
-        console.log('Updating', output)
+
+		// Connect to database
+		var connection = new tedious.Connection({
+		    userName: config.database.username,
+		    password: config.database.password,
+		    server  : config.database.server,
+		    options : {
+		        instanceName: config.database.instance,
+		        databaseName: config.database.database
+		    }
+		})
+
         var query = " UPDATE " + argv.table
                   + " SET ReporteSecundario = @file"
                   + " WHERE NombreReporteOriginal = @name"
+
+
+        // Configure request
         var request = new tedious.Request(query, function (err) {
             if (!!err) return console.error(err)
-            console.log('Updated ' + output)
+           	connection.close();
+            console.log('-> Updated', output)
         })
+
         request.addParameter('name', tedious.TYPES.VarChar, output)
         request.addParameter('file', tedious.TYPES.VarChar, source)
-        connection.execSql(request)
+
+        // Execute Query
+        connection.on('connect', function (err) {
+		    if (!!err) throw err
+        	connection.execSql(request)
+		})
     })
+
+
+	
+
 }

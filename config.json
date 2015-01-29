@@ -1,5 +1,5 @@
 {
-	"path": "C:/Users/User/Dropbox/Iván/Programación/Personlización SiGA/Reportes SIGA",
+	"path": "C:/path/to/siga/reports/folder",
 	"files": [
 		"BINDERPLUS.Comprobante.rdlc",
 		"BINDERPLUS.Comprobante.X.rdlc",
